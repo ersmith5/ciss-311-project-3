@@ -33,16 +33,6 @@ namespace ciss_311_project_3
 
         private void btnAddAuthor_Click(object sender, EventArgs e)
         {
-            // using (var conn = new SqlConnection(connectionString))
-            // using (var adapter = new SqlDataAdapter(
-            //     "SELECT * FROM authors", conn))
-            // {
-            //     var authorDataTable = new DataTable();
-            //     adapter.Fill(authorDataTable);
-            //
-            //     MessageBox.Show($"First author: {authorDataTable.Rows[0]["first_name"].ToString()}");
-            // }
-
             var authorForm = new AddAuthorForm();
             authorForm.Show();
         }
