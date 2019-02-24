@@ -79,6 +79,7 @@
             // 
             // btnAddAuthor
             // 
+            this.btnAddAuthor.Enabled = false;
             this.btnAddAuthor.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddAuthor.Location = new System.Drawing.Point(12, 124);
             this.btnAddAuthor.Name = "btnAddAuthor";
