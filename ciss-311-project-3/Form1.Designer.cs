@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.gbxUser = new System.Windows.Forms.GroupBox();
-            this.gbxLibrarian = new System.Windows.Forms.GroupBox();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.btnAddBorrower = new System.Windows.Forms.Button();
-            this.btnAddBook = new System.Windows.Forms.Button();
+            this.gbxLibrarian = new System.Windows.Forms.GroupBox();
             this.btnAddAuthor = new System.Windows.Forms.Button();
+            this.btnAddBook = new System.Windows.Forms.Button();
+            this.btnAddBorrower = new System.Windows.Forms.Button();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.gbxAdministrator = new System.Windows.Forms.GroupBox();
+            this.btnListOverdueBooks = new System.Windows.Forms.Button();
             this.btnListCheckedOutBooks = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
-            this.btnListOverdueBooks = new System.Windows.Forms.Button();
             this.gbxUser.SuspendLayout();
             this.gbxLibrarian.SuspendLayout();
             this.gbxAdministrator.SuspendLayout();
@@ -54,6 +54,17 @@
             this.gbxUser.TabStop = false;
             this.gbxUser.Text = "User Actions";
             // 
+            // btnSearch
+            // 
+            this.btnSearch.Enabled = false;
+            this.btnSearch.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Location = new System.Drawing.Point(12, 20);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(270, 46);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.Text = "&Search for Book";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            // 
             // gbxLibrarian
             // 
             this.gbxLibrarian.Controls.Add(this.btnAddAuthor);
@@ -66,16 +77,39 @@
             this.gbxLibrarian.TabStop = false;
             this.gbxLibrarian.Text = "Librarian Actions";
             // 
-            // btnSearch
+            // btnAddAuthor
             // 
-            this.btnSearch.Enabled = false;
-            this.btnSearch.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(12, 20);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(270, 46);
-            this.btnSearch.TabIndex = 2;
-            this.btnSearch.Text = "&Search for Book";
-            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnAddAuthor.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddAuthor.Location = new System.Drawing.Point(12, 124);
+            this.btnAddAuthor.Name = "btnAddAuthor";
+            this.btnAddAuthor.Size = new System.Drawing.Size(270, 46);
+            this.btnAddAuthor.TabIndex = 2;
+            this.btnAddAuthor.Text = "Add &Author";
+            this.btnAddAuthor.UseVisualStyleBackColor = true;
+            this.btnAddAuthor.Click += new System.EventHandler(this.btnAddAuthor_Click);
+            // 
+            // btnAddBook
+            // 
+            this.btnAddBook.Enabled = false;
+            this.btnAddBook.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddBook.Location = new System.Drawing.Point(12, 72);
+            this.btnAddBook.Name = "btnAddBook";
+            this.btnAddBook.Size = new System.Drawing.Size(270, 46);
+            this.btnAddBook.TabIndex = 1;
+            this.btnAddBook.Text = "Add &Book";
+            this.btnAddBook.UseVisualStyleBackColor = true;
+            this.btnAddBook.Click += new System.EventHandler(this.btnAddBook_Click);
+            // 
+            // btnAddBorrower
+            // 
+            this.btnAddBorrower.Enabled = false;
+            this.btnAddBorrower.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddBorrower.Location = new System.Drawing.Point(12, 20);
+            this.btnAddBorrower.Name = "btnAddBorrower";
+            this.btnAddBorrower.Size = new System.Drawing.Size(270, 46);
+            this.btnAddBorrower.TabIndex = 0;
+            this.btnAddBorrower.Text = "Add Bo&rrower";
+            this.btnAddBorrower.UseVisualStyleBackColor = true;
             // 
             // lblTitle
             // 
@@ -89,39 +123,6 @@
             this.lblTitle.Text = "Tiny Library Book Management System";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // btnAddBorrower
-            // 
-            this.btnAddBorrower.Enabled = false;
-            this.btnAddBorrower.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddBorrower.Location = new System.Drawing.Point(12, 20);
-            this.btnAddBorrower.Name = "btnAddBorrower";
-            this.btnAddBorrower.Size = new System.Drawing.Size(270, 46);
-            this.btnAddBorrower.TabIndex = 0;
-            this.btnAddBorrower.Text = "Add Bo&rrower";
-            this.btnAddBorrower.UseVisualStyleBackColor = true;
-            // 
-            // btnAddBook
-            // 
-            this.btnAddBook.Enabled = false;
-            this.btnAddBook.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddBook.Location = new System.Drawing.Point(12, 72);
-            this.btnAddBook.Name = "btnAddBook";
-            this.btnAddBook.Size = new System.Drawing.Size(270, 46);
-            this.btnAddBook.TabIndex = 1;
-            this.btnAddBook.Text = "Add &Book";
-            this.btnAddBook.UseVisualStyleBackColor = true;
-            // 
-            // btnAddAuthor
-            // 
-            this.btnAddAuthor.Enabled = false;
-            this.btnAddAuthor.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddAuthor.Location = new System.Drawing.Point(12, 124);
-            this.btnAddAuthor.Name = "btnAddAuthor";
-            this.btnAddAuthor.Size = new System.Drawing.Size(270, 46);
-            this.btnAddAuthor.TabIndex = 2;
-            this.btnAddAuthor.Text = "Add &Author";
-            this.btnAddAuthor.UseVisualStyleBackColor = true;
-            // 
             // gbxAdministrator
             // 
             this.gbxAdministrator.Controls.Add(this.btnListOverdueBooks);
@@ -132,6 +133,17 @@
             this.gbxAdministrator.TabIndex = 3;
             this.gbxAdministrator.TabStop = false;
             this.gbxAdministrator.Text = "Administrator Actions";
+            // 
+            // btnListOverdueBooks
+            // 
+            this.btnListOverdueBooks.Enabled = false;
+            this.btnListOverdueBooks.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnListOverdueBooks.Location = new System.Drawing.Point(12, 72);
+            this.btnListOverdueBooks.Name = "btnListOverdueBooks";
+            this.btnListOverdueBooks.Size = new System.Drawing.Size(270, 46);
+            this.btnListOverdueBooks.TabIndex = 3;
+            this.btnListOverdueBooks.Text = "List &Overdue Books";
+            this.btnListOverdueBooks.UseVisualStyleBackColor = true;
             // 
             // btnListCheckedOutBooks
             // 
@@ -154,17 +166,6 @@
             this.btnExit.Text = "E&xit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // btnListOverdueBooks
-            // 
-            this.btnListOverdueBooks.Enabled = false;
-            this.btnListOverdueBooks.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnListOverdueBooks.Location = new System.Drawing.Point(12, 72);
-            this.btnListOverdueBooks.Name = "btnListOverdueBooks";
-            this.btnListOverdueBooks.Size = new System.Drawing.Size(270, 46);
-            this.btnListOverdueBooks.TabIndex = 3;
-            this.btnListOverdueBooks.Text = "List &Overdue Books";
-            this.btnListOverdueBooks.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
