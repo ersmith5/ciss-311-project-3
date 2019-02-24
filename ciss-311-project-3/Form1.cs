@@ -21,5 +21,11 @@ namespace ciss_311_project_3
         {
             Close();
         }
+
+        private void btnAddBook_Click(object sender, EventArgs e)
+        {
+            var bookForm = new AddBookForm();
+            bookForm.Show();
+        }
     }
 }
