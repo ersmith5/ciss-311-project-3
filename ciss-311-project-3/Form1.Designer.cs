@@ -87,9 +87,11 @@
             this.btnAddAuthor.TabIndex = 2;
             this.btnAddAuthor.Text = "Add &Author";
             this.btnAddAuthor.UseVisualStyleBackColor = true;
+            this.btnAddAuthor.Click += new System.EventHandler(this.btnAddAuthor_Click);
             // 
             // btnAddBook
             // 
+            this.btnAddBook.Enabled = false;
             this.btnAddBook.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddBook.Location = new System.Drawing.Point(12, 72);
             this.btnAddBook.Name = "btnAddBook";

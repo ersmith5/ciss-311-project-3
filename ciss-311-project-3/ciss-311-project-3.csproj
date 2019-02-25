@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddAuthorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddAuthorForm.Designer.cs">
+      <DependentUpon>AddAuthorForm.cs</DependentUpon>
+	</Compile>
     <Compile Include="AddBookForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TinyLibraryDBDataSet.xsd</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddAuthorForm.resx">
+      <DependentUpon>AddAuthorForm.cs</DependentUpon>
+	</EmbeddedResource>
     <EmbeddedResource Include="AddBookForm.resx">
       <DependentUpon>AddBookForm.cs</DependentUpon>
     </EmbeddedResource>
