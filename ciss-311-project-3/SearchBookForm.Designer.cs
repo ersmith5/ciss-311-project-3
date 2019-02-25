@@ -30,14 +30,14 @@
         {
             this.tbxSearchString = new System.Windows.Forms.TextBox();
             this.lblSearchBy = new System.Windows.Forms.Label();
-            this.gbxSearch = new System.Windows.Forms.GroupBox();
+            this.gbxSearchForBooks = new System.Windows.Forms.GroupBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.cbxSearchOptions = new System.Windows.Forms.ComboBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.lvwResults = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.gbxSearch.SuspendLayout();
+            this.gbxSearchForBooks.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbxSearchString
@@ -57,18 +57,18 @@
             this.lblSearchBy.TabIndex = 9;
             this.lblSearchBy.Text = "Search by:";
             // 
-            // gbxSearch
+            // gbxSearchForBooks
             // 
-            this.gbxSearch.Controls.Add(this.btnSearch);
-            this.gbxSearch.Controls.Add(this.cbxSearchOptions);
-            this.gbxSearch.Controls.Add(this.tbxSearchString);
-            this.gbxSearch.Controls.Add(this.lblSearchBy);
-            this.gbxSearch.Location = new System.Drawing.Point(12, 57);
-            this.gbxSearch.Name = "gbxSearch";
-            this.gbxSearch.Size = new System.Drawing.Size(529, 90);
-            this.gbxSearch.TabIndex = 11;
-            this.gbxSearch.TabStop = false;
-            this.gbxSearch.Text = "Search for Book";
+            this.gbxSearchForBooks.Controls.Add(this.btnSearch);
+            this.gbxSearchForBooks.Controls.Add(this.cbxSearchOptions);
+            this.gbxSearchForBooks.Controls.Add(this.tbxSearchString);
+            this.gbxSearchForBooks.Controls.Add(this.lblSearchBy);
+            this.gbxSearchForBooks.Location = new System.Drawing.Point(12, 57);
+            this.gbxSearchForBooks.Name = "gbxSearchForBooks";
+            this.gbxSearchForBooks.Size = new System.Drawing.Size(529, 90);
+            this.gbxSearchForBooks.TabIndex = 11;
+            this.gbxSearchForBooks.TabStop = false;
+            this.gbxSearchForBooks.Text = "Search for Books";
             // 
             // btnSearch
             // 
@@ -99,9 +99,9 @@
             this.lblTitle.Font = new System.Drawing.Font("Yu Gothic UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.Location = new System.Drawing.Point(150, 9);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(244, 45);
+            this.lblTitle.Size = new System.Drawing.Size(258, 45);
             this.lblTitle.TabIndex = 12;
-            this.lblTitle.Text = "Search for Book";
+            this.lblTitle.Text = "Search for Books";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnClose
@@ -142,12 +142,12 @@
             this.Controls.Add(this.lvwResults);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.gbxSearch);
+            this.Controls.Add(this.gbxSearchForBooks);
             this.Name = "SearchBookForm";
             this.Text = "SearchBookForm";
             this.Load += new System.EventHandler(this.SearchBookForm_Load);
-            this.gbxSearch.ResumeLayout(false);
-            this.gbxSearch.PerformLayout();
+            this.gbxSearchForBooks.ResumeLayout(false);
+            this.gbxSearchForBooks.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,7 +156,7 @@
         #endregion
         private System.Windows.Forms.TextBox tbxSearchString;
         private System.Windows.Forms.Label lblSearchBy;
-        private System.Windows.Forms.GroupBox gbxSearch;
+        private System.Windows.Forms.GroupBox gbxSearchForBooks;
         private System.Windows.Forms.ComboBox cbxSearchOptions;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnSearch;
