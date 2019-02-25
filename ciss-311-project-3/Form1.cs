@@ -27,5 +27,11 @@ namespace ciss_311_project_3
             var bookForm = new AddBookForm();
             bookForm.Show();
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            var searchForm = new SearchBookForm();
+            searchForm.Show();
+        }
     }
 }

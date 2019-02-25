@@ -56,7 +56,6 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Enabled = false;
             this.btnSearch.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Location = new System.Drawing.Point(12, 20);
             this.btnSearch.Name = "btnSearch";
@@ -64,6 +63,7 @@
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "&Search for Book";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // gbxLibrarian
             // 
