@@ -36,7 +36,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.lvwResults = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.titleColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gbxSearchForBooks.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,7 +118,7 @@
             // lvwResults
             // 
             this.lvwResults.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
+            this.titleColumn});
             this.lvwResults.Enabled = false;
             this.lvwResults.GridLines = true;
             this.lvwResults.Location = new System.Drawing.Point(12, 153);
@@ -130,9 +130,9 @@
             this.lvwResults.View = System.Windows.Forms.View.List;
             this.lvwResults.DoubleClick += new System.EventHandler(this.lvwResults_DoubleClick);
             // 
-            // columnHeader1
+            // titleColumn
             // 
-            this.columnHeader1.Width = 523;
+            this.titleColumn.Width = 523;
             // 
             // SearchBookForm
             // 
@@ -162,6 +162,6 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.ListView lvwResults;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader titleColumn;
     }
 }
