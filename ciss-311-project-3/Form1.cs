@@ -48,5 +48,11 @@ namespace ciss_311_project_3
             var searchForm = new SearchBookForm();
             searchForm.Show();
         }
+
+        private void btnAddBorrower_Click(object sender, EventArgs e)
+        {
+            var borrowerForm = new AddBorrowers.BorrowerForm();
+            borrowerForm.Show();
+        }
     }
 }

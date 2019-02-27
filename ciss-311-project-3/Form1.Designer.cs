@@ -103,7 +103,6 @@
             // 
             // btnAddBorrower
             // 
-            this.btnAddBorrower.Enabled = false;
             this.btnAddBorrower.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddBorrower.Location = new System.Drawing.Point(12, 20);
             this.btnAddBorrower.Name = "btnAddBorrower";
@@ -111,6 +110,7 @@
             this.btnAddBorrower.TabIndex = 0;
             this.btnAddBorrower.Text = "Add Bo&rrower";
             this.btnAddBorrower.UseVisualStyleBackColor = true;
+            this.btnAddBorrower.Click += new System.EventHandler(this.btnAddBorrower_Click);
             // 
             // lblTitle
             // 
