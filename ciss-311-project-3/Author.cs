@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ciss_311_project_3
 {
     [Table(Name = "authors")]
-    class Author
+    public class Author
     {
         /// <summary>
         /// Unique ID used by the database.

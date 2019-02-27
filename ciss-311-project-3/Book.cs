@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ciss_311_project_3
 {
     [Table(Name = "books")]
-    class Book
+    public class Book
     {
         /// <summary>
         /// Database ID of the Book.
@@ -44,7 +44,7 @@ namespace ciss_311_project_3
         /// <summary>
         /// Authors of the Book.
         /// </summary>
-        //private EntitySet<Author> authors;
+        private List<Author> authors;
 
         [Column(Name = "id")]
         public int ID
@@ -88,12 +88,33 @@ namespace ciss_311_project_3
             set { copies = value; }
         }
 
-        //[Association(OtherKey = "book_id")]
-        //public EntitySet<Author> Authors
-        //{
-        //    get { return authors; }
-        //    set { authors.Assign(value); }
-        //}
+        public void AddAuthor(Author author)
+        {
+            authors.Add(author);
+        }
+
+        public List<Author> GetAuthors()
+        {
+            return authors;
+        }
+
+        /// <summary>
+        /// Book Constructor without an Author.
+        /// </summary>
+        /// <param name="title">Title of the Book.</param>
+        /// <param name="year">Year the book was published.</param>
+        /// <param name="isbn">ISBN (13, digits only) of the Book.</param>
+        /// <param name="location">Shelf location of the Book within the library.</param>
+        /// <param name="copies">Number of copies the library owns.</param>
+        public Book(string title, DateTime year, string isbn, string location, int copies)
+        {
+            this.title = title;
+            this.year = year;
+            this.isbn = isbn;
+            this.location = location;
+            this.copies = copies;
+            this.authors = new List<Author>();
+        }
 
         /// <summary>
         /// Book Constructor with single Author.
@@ -111,9 +132,8 @@ namespace ciss_311_project_3
             this.isbn = isbn;
             this.location = location;
             this.copies = copies;
-
-            // TODO: Add single Author relation
-            // this.authors = new EntitySet<Author>()
+            this.authors = new List<Author>();
+            this.authors.Add(author);
         }
 
         /// <summary>
@@ -132,9 +152,10 @@ namespace ciss_311_project_3
             this.isbn = isbn;
             this.location = location;
             this.copies = copies;
-
-            // TODO: Add multiple Author relations
-            // this.authors = new EntitySet<Author>()
+            this.authors = new List<Author>();
+            authors.ForEach((author) => {
+                this.authors.Add(author);
+            });
         }
         
     }
