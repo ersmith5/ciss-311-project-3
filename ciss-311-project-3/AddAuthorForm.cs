@@ -28,7 +28,7 @@ namespace ciss_311_project_3
         {
             using (conn = new SqlConnection(connectionString))
             using (var command = new SqlCommand(
-                "INSERT INTO authors VALUES (@firstName, @lastName, @about)", conn))
+                "INSERT INTO Library.authors VALUES (@firstName, @lastName, @about)", conn))
             {
                 conn.Open();
 
