@@ -28,6 +28,10 @@ namespace ciss_311_project_3
         public string SqlCommandString;
     }
 
+    /// <summary>
+    /// Form for searching for books within the Library. Selecting a book gives more details 
+    /// and the option to checkout the book.
+    /// </summary>
     public partial class SearchBookForm : Form
     {
         /// <summary>
@@ -60,6 +64,9 @@ namespace ciss_311_project_3
         /// </summary>
         protected DataTable resultsTable;
 
+        protected string resultsTextFailure;
+        protected string resultsTextSuccess;
+
         /// <summary>
         /// Form constructor.
         /// </summary>
@@ -68,6 +75,8 @@ namespace ciss_311_project_3
             InitializeComponent();
 
             connectionString = ConfigurationManager.ConnectionStrings["ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"].ConnectionString;
+            resultsTextSuccess = "Double-click a book below to view its details or checkout a copy.";
+            resultsTextFailure = "Perform a search above to see find a book (leave blank for all).";
 
             searchOptions = new SearchObject[] {
                 new SearchObject {
@@ -109,6 +118,8 @@ namespace ciss_311_project_3
                 "Title",
                 "ISBN"
             };
+
+            lblResults.Text = resultsTextFailure;
         }
 
         /// <summary>
@@ -154,6 +165,7 @@ namespace ciss_311_project_3
                         {
                             // Disable the listbox if no results were returned.
                             lvwResults.Enabled = false;
+                            lblResults.Text = resultsTextFailure;
 
                             lvwResults.Items.Add("No books found.");
                         }
@@ -161,6 +173,7 @@ namespace ciss_311_project_3
                         {
                             // Enable the listbox if there were results returned.
                             lvwResults.Enabled = true;
+                            lblResults.Text = resultsTextSuccess;
 
                             foreach (DataRow dataRow in resultsTable.Rows)
                             {
@@ -190,8 +203,11 @@ namespace ciss_311_project_3
         /// <param name="e">Event Arguments.</param>
         private void lvwResults_DoubleClick(object sender, EventArgs e)
         {
-            // Going to show a book checkout form instead. This line is temporary.
-            MessageBox.Show(lvwResults.SelectedItems[0].Index.ToString());
+            // Get the ID of the selected book;
+            int book_id = int.Parse(resultsTable.Rows[lvwResults.SelectedIndices[0]][0].ToString()); 
+
+            var viewBookForm = new ViewBookForm(book_id);
+            viewBookForm.Show();
         }
     }
 }
