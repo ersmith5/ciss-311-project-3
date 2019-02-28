@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ciss_311_project_3
 {
-    [Table(Name = "books")]
+    [Table(Name = "Library.books")]
     public class Book
     {
         /// <summary>
@@ -46,7 +46,7 @@ namespace ciss_311_project_3
         /// </summary>
         private List<Author> authors;
 
-        [Column(Name = "id")]
+        [Column(Name = "book_id")]
         public int ID
         {
             get { return id; }
@@ -157,6 +157,5 @@ namespace ciss_311_project_3
                 this.authors.Add(author);
             });
         }
-        
     }
 }

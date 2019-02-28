@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ciss_311_project_3
 {
-    [Table(Name = "authors")]
+    [Table(Name = "Library.authors")]
     public class Author
     {
         /// <summary>
@@ -36,7 +36,7 @@ namespace ciss_311_project_3
         /// </summary>
         //private EntitySet<Book> books;
 
-        [Column(Name = "id")]
+        [Column(Name = "author_id")]
         public int ID
         {
             get { return id; }

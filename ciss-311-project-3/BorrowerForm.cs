@@ -24,7 +24,6 @@ namespace AddBorrowers
             InitializeComponent();
 
             connectionString = ConfigurationManager.ConnectionStrings["ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"].ConnectionString;
-            //connectionString = ConfigurationManager.ConnectionStrings["AddBorrowers.Properties.Settings.TinyLibraryConnectionString"].ConnectionString;
         }
 
         //declare variable for radio buttons Student and Faculty
