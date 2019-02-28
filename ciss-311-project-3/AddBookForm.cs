@@ -26,7 +26,7 @@ namespace ciss_311_project_3
         {
             using (var conn = new SqlConnection(connectionString))
             using (var command = new SqlCommand(
-                "DELETE FROM books; INSERT INTO books VALUES (@title, @copyright_year, @isbn, @location, @copies)", conn))
+                "DELETE FROM Library.books; INSERT INTO Library.books VALUES (@title, @copyright_year, @isbn, @location, @copies)", conn))
             {
                 conn.Open();
 
