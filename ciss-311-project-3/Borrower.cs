@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Data.Linq.Mapping;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,11 +38,21 @@ namespace ciss_311_project_3
         /// </summary>
         protected int bookAllotment;
 
-        [Column(Name = "id")]
+        /// <summary>
+        /// Connection string to the local database.
+        /// </summary>
+        protected string connectionString;
+
+        [Column(Name = "borrower_id")]
         public int ID
         {
             get { return id; }
             set { id = value; }
+        }
+
+        internal static List<Borrower> GetAllBorrowers()
+        {
+            throw new NotImplementedException();
         }
 
         [Column(Name = "first_name")]
@@ -77,6 +90,67 @@ namespace ciss_311_project_3
             this.last_name      = last_name.Trim();
             this.type           = type.Trim();
             this.bookAllotment  = bookAllotment;
+
+            connectionString = ConfigurationManager.ConnectionStrings[
+               "ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"
+           ].ConnectionString;
+        }
+
+        public static List<Borrower> GetBorrowers()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings[
+               "ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"
+           ].ConnectionString;
+
+            List<Borrower> retrivedBorrowers = new List<Borrower>();
+
+            // Prepare to establish a database connection.
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // Set the command to be executed.
+                using (SqlCommand comd = new SqlCommand(
+                        "SELECT * FROM Membership.borrowers as b",
+                        conn
+                    )
+                )
+                {
+                    // Create an adaptor for executing the query with the given variables.
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
+                    {
+                        // Establish a variable for the results.
+                        DataTable resultsTable = new DataTable();
+
+                        // Execute the query and save the results.
+                        adapter.Fill(resultsTable);
+
+                        // Create a borrower object for each record retrieved
+                        if (resultsTable.Rows.Count > 0)
+                        { 
+                            foreach (DataRow row in resultsTable.Rows)
+                            {
+                                if (row[1].ToString().Trim() == "Student")
+                                {
+                                    retrivedBorrowers.Add(new StudentBorrower(
+                                        int.Parse(row[0].ToString().Trim()),
+                                        row[2].ToString().Trim(),
+                                        row[3].ToString().Trim()
+                                    ));
+                                }
+                                else
+                                {
+                                    retrivedBorrowers.Add(new FacultyBorrower(
+                                        int.Parse(row[0].ToString().Trim()),
+                                        row[2].ToString().Trim(),
+                                        row[3].ToString().Trim()
+                                    ));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return retrivedBorrowers;
         }
 
         /// <summary>
@@ -104,6 +178,130 @@ namespace ciss_311_project_3
         public override string ToString()
         {
             return FullName();
+        }
+
+        /// <summary>
+        /// Gets a list of Books this Borrower currently has checked out.
+        /// </summary>
+        /// <returns>A List of Books.</returns>
+        public List<Book> GetCurrentCheckedOutBooks()
+        {
+            List<int> bookIds = new List<int>();
+
+            // Prepare to establish a database connection.
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // Set the command to be executed.
+                using (SqlCommand comd = new SqlCommand(
+                        "SELECT c.book_id " +
+                        "FROM Membership.checkout as c " +
+                        "WHERE c.borrower_id = @searchString",
+                        conn
+                    )
+                )
+                {
+                    // Create an adaptor for executing the query with the given variables.
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
+                    {
+                        // Set the variables to send along with the command.
+                        comd.Parameters.AddWithValue("@searchString", this.ID);
+
+                        // Establish a variable for the results.
+                        DataTable resultsTable = new DataTable();
+
+                        // Execute the query and save the results.
+                        adapter.Fill(resultsTable);
+
+                        foreach (DataRow row in resultsTable.Rows)
+                        {
+                            bookIds.Add(int.Parse(row[0].ToString()));
+                        }
+                    }
+                }
+            }
+
+            return Book.GetBooksByID(bookIds);
+        }
+
+        /// <summary>
+        /// Gets the number of Books this Borrower has currently checked out.
+        /// </summary>
+        /// <returns></returns>
+        public int GetCurrentCheckedOutCount()
+        {
+            DataTable bookResultsTable = new DataTable();
+
+            // Prepare to establish a database connection.
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // Set the command to be executed.
+                using (SqlCommand comd = new SqlCommand(
+                        "SELECT COUNT(c.borrower_id) " +
+                        "FROM Membership.checkout as c " +
+                        "WHERE c.borrower_id = @searchString",
+                        conn
+                    )
+                )
+                {
+                    // Create an adaptor for executing the query with the given variables.
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
+                    {
+                        comd.Parameters.AddWithValue("@searchString", this.id.ToString());
+
+                        // Execute the query and save the results.
+                        adapter.Fill(bookResultsTable);
+                    }
+                }
+            }
+
+            return int.Parse(bookResultsTable.Rows[0][0].ToString());
+        }
+
+        /// <summary>
+        /// Checks to see if this Borrower has a checked out Book that is overdue.
+        /// </summary>
+        /// <returns>Boolean - true if there are 1 or more overdue Books.</returns>
+        public bool HasOverdueBooks()
+        {
+            DataTable bookResultsTable = new DataTable();
+
+            // Prepare to establish a database connection.
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // Set the command to be executed.
+                using (SqlCommand comd = new SqlCommand(
+                        "SELECT COUNT(c.borrower_id) " +
+                        "FROM Membership.checkout as c " +
+                        "WHERE c.borrower_id = @searchString " + 
+                        "AND c.date < @searchDate",
+                        conn
+                    )
+                )
+                {
+                    // Create an adaptor for executing the query with the given variables.
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
+                    {
+                        DateTime date = DateTime.Today.AddMonths(-1);
+
+                        comd.Parameters.AddWithValue("@searchString", this.id.ToString());
+                        comd.Parameters.AddWithValue("@searchDate", date.ToString());
+
+                        // Execute the query and save the results.
+                        adapter.Fill(bookResultsTable);
+                    }
+                }
+            }
+
+            return int.Parse(bookResultsTable.Rows[0][0].ToString()) > 0;
+        }
+
+        /// <summary>
+        /// Checks to see if this Borrower has overdue Books or any available Book allotment remaining.
+        /// </summary>
+        /// <returns>Boolean - true if there are enough Book allotments remaining and no overdue Books.</returns>
+        public bool CanCheckoutBooks()
+        {
+            return GetCurrentCheckedOutCount() < bookAllotment && !HasOverdueBooks();
         }
     }
 }

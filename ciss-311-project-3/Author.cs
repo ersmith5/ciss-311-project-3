@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 //using System.Data.Linq;
 using System.Data.Linq.Mapping;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,6 +87,56 @@ namespace ciss_311_project_3
             this.about = about;
 
             // TODO: Add book relations
+        }
+
+        public static List<Author> GetAuthorsForBook(int bookId)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings[
+               "ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"
+            ].ConnectionString;
+
+
+            DataTable authorResultsTable = new DataTable();
+
+            // Prepare to establish a database connection.
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // Set the command to be executed.
+                using (SqlCommand comd = new SqlCommand(
+                        "SELECT a.* " + 
+                        "FROM Library.authors as a " + 
+                        "JOIN Library.author_book as ab on ab.author_id = a.author_id " + 
+                        "WHERE ab.book_id = @searchString",
+                        conn
+                    )
+                )
+                {
+                    // Create an adaptor for executing the query with the given variables.
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
+                    {
+                        comd.Parameters.AddWithValue("@searchString", bookId.ToString());
+
+                        // Execute the query and save the results.
+                        adapter.Fill(authorResultsTable);
+                    }
+                }
+            }
+
+            List<Author> authorList = new List<Author>();
+
+            if (authorResultsTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in authorResultsTable.Rows)
+                {
+                    authorList.Add(new Author(
+                        row[1].ToString(), // first_name
+                        row[2].ToString(), // last_name
+                        row[3].ToString() // about_the_author
+                    ));
+                }
+            }
+
+            return authorList;
         }
     }
 }
