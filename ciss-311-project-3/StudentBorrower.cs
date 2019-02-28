@@ -8,7 +8,7 @@ namespace ciss_311_project_3
 {
     class StudentBorrower : Borrower
     {
-        public StudentBorrower(string first_name, string last_name) : base (first_name, last_name, "Student", 2)
+        public StudentBorrower(int id, string first_name, string last_name) : base(id, first_name, last_name, "Student", 2)
         {
             //
         }

@@ -30,7 +30,9 @@ namespace ciss_311_project_3
         {
             InitializeComponent();
 
-            connectionString = ConfigurationManager.ConnectionStrings["ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"].ConnectionString;
+            connectionString = ConfigurationManager.ConnectionStrings[
+                "ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"
+            ].ConnectionString;
 
             LoadBookFromDatabase(book_id);
         }
@@ -126,27 +128,65 @@ namespace ciss_311_project_3
                     int.Parse(bookRow[5].ToString()) // copies
                 );
 
-                SetBookFields(book);
+                int checkedOutCopies = 0;
+
+                // Prepare to establish a database connection.
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    // Set the command to be executed.
+                    using (SqlCommand comd = new SqlCommand(
+                            "SELECT COUNT(c.book_id) FROM Membership.checkout as c WHERE c.book_id = @searchString",
+                            conn
+                        )
+                    )
+                    {
+                        // Create an adaptor for executing the query with the given variables.
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
+                        {
+                            // Set the variables to send along with the command.
+                            comd.Parameters.AddWithValue("@searchString", book.ID);
+
+                            // Establish a variable for the results.
+                            DataTable resultsTable = new DataTable();
+
+                            // Execute the query and save the results.
+                            adapter.Fill(resultsTable);
+
+                            // Get the returned count (first row, first column)
+                            checkedOutCopies = int.Parse(resultsTable.Rows[0][0].ToString());
+                        }
+                    }
+                }
+
+                SetFields(book, checkedOutCopies);
             }
         }
 
-        private void SetBookFields(Book book)
+        private void SetFields(Book book, int checkedOutCopies)
         {
             tbxISBN.Text = book.ISBN;
             tbxCopywriteYear.Text = book.Year.Year.ToString();
             tbxLocation.Text = book.Location;
             tbxTotalCopies.Text = book.Copies.ToString();
-            tbxAvailableCopies.Text = "0";
+            tbxAvailableCopies.Text = (book.Copies - checkedOutCopies).ToString() ;
 
             foreach(Author author in book.GetAuthors())
             {
                 lbxAuthors.Items.Add(author.FirstName + " " + author.LastName);
             }
+
+            btnCheckout.Enabled = book.Copies - checkedOutCopies > 0 ? true : false;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnCheckout_Click(object sender, EventArgs e)
+        {
+            var checkoutForm = new CheckoutForm(book);
+            checkoutForm.Show();
         }
     }
 }

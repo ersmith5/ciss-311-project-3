@@ -84,6 +84,7 @@
             this.btnCheckout.TabIndex = 17;
             this.btnCheckout.Text = "Ch&eckout";
             this.btnCheckout.UseVisualStyleBackColor = true;
+            this.btnCheckout.Click += new System.EventHandler(this.btnCheckout_Click);
             // 
             // lblISBN
             // 

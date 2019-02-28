@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ciss_311_project_3
 {
     [Table(Name = "Membership.borrowers")]
-    abstract class Borrower
+    public abstract class Borrower
     {
         /// <summary>
         /// Unique ID used by the database.
@@ -70,8 +70,9 @@ namespace ciss_311_project_3
         /// <param name="last_name">Last Name of the Borrower</param>
         /// <param name="type">Type of Borrower</param>
         /// <param name="bookAllotment">Number of Books the Borrower is allowed to check out at once.</param>
-        public Borrower(string first_name, string last_name, string type, int bookAllotment)
+        public Borrower(int id, string first_name, string last_name, string type, int bookAllotment)
         {
+            this.id             = id;
             this.first_name     = first_name.Trim();
             this.last_name      = last_name.Trim();
             this.type           = type.Trim();
@@ -91,7 +92,7 @@ namespace ciss_311_project_3
         /// Returns the number of Books this Borrower is allowed to check out at one time.
         /// </summary>
         /// <returns>Integer of the Book Allotment.</returns>
-        public  int BookAllotment()
+        public int BookAllotment()
         {
             return bookAllotment;
         }
