@@ -380,7 +380,49 @@ namespace ciss_311_project_3
 
         public bool IsAvailableToCheckout()
         {
-            return GetCheckedOutCount() > 0;
+            return GetAvailableCount() > 0;
+        }
+
+        public bool CheckoutBy(Borrower borrower)
+        {
+            DateTime date = DateTime.Today;
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                using (var command = new SqlCommand(
+                    "INSERT INTO Membership.checkout (book_id, borrower_id, date)" +
+                    "VALUES (@book_id, @borrower_id, @date)",
+                    conn
+                ))
+                {
+                    conn.Open();
+
+                    command.Parameters.AddWithValue("@book_id", id);
+                    command.Parameters.AddWithValue("@borrower_id", borrower.ID);
+                    command.Parameters.AddWithValue("@date", date.ToString());
+
+                    command.ExecuteScalar();
+                }
+            }
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                using (var command = new SqlCommand(
+                    "INSERT INTO Membership.checkout_history (book_id, borrower_id)" +
+                    "VALUES (@book_id, @borrower_id)",
+                    conn
+                ))
+                {
+                    conn.Open();
+
+                    command.Parameters.AddWithValue("@book_id", id);
+                    command.Parameters.AddWithValue("@borrower_id", borrower.ID);
+
+                    command.ExecuteScalar();
+                }
+            }
+
+            return true;
         }
     }
 }

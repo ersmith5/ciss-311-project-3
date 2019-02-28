@@ -59,8 +59,14 @@ namespace ciss_311_project_3
         }
         private void btnCheckout_Click(object sender, EventArgs e)
         {
-            // TODO: Do the checkout code
-            MessageBox.Show("This book has been checked out.");
+            if (book.CheckoutBy((Borrower)cbxBorrower.SelectedItem))
+            {
+                MessageBox.Show("This Book has been checked out!");
+            }
+            else
+            {
+                MessageBox.Show("There was an error. This Book has NOT been checked out.");
+            }
 
             // TODO: ? Tell the parent to refresh the book's info?
             Close();
