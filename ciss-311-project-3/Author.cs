@@ -91,10 +91,10 @@ namespace ciss_311_project_3
 
         public static List<Author> GetAuthorsForBook(int bookId)
         {
+            // Local connection variable due to this being a static method.
             string connectionString = ConfigurationManager.ConnectionStrings[
                "ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"
             ].ConnectionString;
-
 
             DataTable authorResultsTable = new DataTable();
 
@@ -129,9 +129,9 @@ namespace ciss_311_project_3
                 foreach (DataRow row in authorResultsTable.Rows)
                 {
                     authorList.Add(new Author(
-                        row[1].ToString(), // first_name
-                        row[2].ToString(), // last_name
-                        row[3].ToString() // about_the_author
+                        row["first_name"].ToString().Trim(),
+                        row["last_name"].ToString().Trim(),
+                        row["about_the_author"].ToString().Trim()
                     ));
                 }
             }

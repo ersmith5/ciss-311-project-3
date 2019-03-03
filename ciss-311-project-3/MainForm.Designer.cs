@@ -148,7 +148,6 @@
             // 
             // btnListCheckedOutBooks
             // 
-            this.btnListCheckedOutBooks.Enabled = false;
             this.btnListCheckedOutBooks.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnListCheckedOutBooks.Location = new System.Drawing.Point(12, 20);
             this.btnListCheckedOutBooks.Name = "btnListCheckedOutBooks";
@@ -156,6 +155,7 @@
             this.btnListCheckedOutBooks.TabIndex = 2;
             this.btnListCheckedOutBooks.Text = "List &Checked Out Books";
             this.btnListCheckedOutBooks.UseVisualStyleBackColor = true;
+            this.btnListCheckedOutBooks.Click += new System.EventHandler(this.btnListCheckedOutBooks_Click);
             // 
             // btnExit
             // 

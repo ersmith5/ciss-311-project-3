@@ -32,6 +32,11 @@ namespace ciss_311_project_3
             this.book = book;
         }
 
+        /// <summary>
+        /// Loads the available borrowers from the database and sets the from.
+        /// </summary>
+        /// <param name="sender">Form that triggered the event.</param>
+        /// <param name="e">Event Arguments.</param>
         private void CheckoutForm_Load(object sender, EventArgs e)
         {
             borrowers = Borrower.GetBorrowers();
@@ -39,6 +44,11 @@ namespace ciss_311_project_3
             cbxBorrower.DataSource = borrowers;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender">Form that triggered the event.</param>
+        /// <param name="e">Event Arguments.</param>
         private void cbxBorrower_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Prevent a checkout if no Borrower is selectable.
@@ -57,6 +67,12 @@ namespace ciss_311_project_3
                 btnCheckout.Enabled = selectedBorrower.CanCheckoutBooks();
             }
         }
+
+        /// <summary>
+        /// Submits the selected change to the database
+        /// </summary>
+        /// <param name="sender">Form that triggered the event.</param>
+        /// <param name="e">Event Arguments.</param>
         private void btnCheckout_Click(object sender, EventArgs e)
         {
             if (book.CheckoutBy((Borrower)cbxBorrower.SelectedItem))
@@ -72,6 +88,11 @@ namespace ciss_311_project_3
             Close();
         }
 
+        /// <summary>
+        /// Closes the form without any changes.
+        /// </summary>
+        /// <param name="sender">Form that triggered the event.</param>
+        /// <param name="e">Event Arguments.</param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();

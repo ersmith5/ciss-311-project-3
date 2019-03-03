@@ -96,12 +96,18 @@ namespace ciss_311_project_3
            ].ConnectionString;
         }
 
+        /// <summary>
+        /// Retrieve all the available Borrowers.
+        /// </summary>
+        /// <returns>A List of the available Borrowers.</returns>
         public static List<Borrower> GetBorrowers()
         {
+            // Local connection variable due to this being a static method.
             string connectionString = ConfigurationManager.ConnectionStrings[
                "ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"
            ].ConnectionString;
 
+            // Instantiate a 
             List<Borrower> retrivedBorrowers = new List<Borrower>();
 
             // Prepare to establish a database connection.
@@ -111,8 +117,7 @@ namespace ciss_311_project_3
                 using (SqlCommand comd = new SqlCommand(
                         "SELECT * FROM Membership.borrowers as b",
                         conn
-                    )
-                )
+                ))
                 {
                     // Create an adaptor for executing the query with the given variables.
                     using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
@@ -125,23 +130,23 @@ namespace ciss_311_project_3
 
                         // Create a borrower object for each record retrieved
                         if (resultsTable.Rows.Count > 0)
-                        { 
+                        {
                             foreach (DataRow row in resultsTable.Rows)
                             {
-                                if (row[1].ToString().Trim() == "Student")
+                                if (row["type"].ToString().Trim() == "Student")
                                 {
                                     retrivedBorrowers.Add(new StudentBorrower(
-                                        int.Parse(row[0].ToString().Trim()),
-                                        row[2].ToString().Trim(),
-                                        row[3].ToString().Trim()
+                                        int.Parse(row["borrower_id"].ToString().Trim()),
+                                        row["first_name"].ToString().Trim(),
+                                        row["last_name"].ToString().Trim()
                                     ));
                                 }
                                 else
                                 {
                                     retrivedBorrowers.Add(new FacultyBorrower(
-                                        int.Parse(row[0].ToString().Trim()),
-                                        row[2].ToString().Trim(),
-                                        row[3].ToString().Trim()
+                                        int.Parse(row["borrower_id"].ToString().Trim()),
+                                        row["first_name"].ToString().Trim(),
+                                        row["last_name"].ToString().Trim()
                                     ));
                                 }
                             }
@@ -197,8 +202,7 @@ namespace ciss_311_project_3
                         "FROM Membership.checkout as c " +
                         "WHERE c.borrower_id = @searchString",
                         conn
-                    )
-                )
+                ))
                 {
                     // Create an adaptor for executing the query with the given variables.
                     using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
@@ -214,7 +218,7 @@ namespace ciss_311_project_3
 
                         foreach (DataRow row in resultsTable.Rows)
                         {
-                            bookIds.Add(int.Parse(row[0].ToString()));
+                            bookIds.Add(int.Parse(row["book_id"].ToString().Trim()));
                         }
                     }
                 }
@@ -240,8 +244,7 @@ namespace ciss_311_project_3
                         "FROM Membership.checkout as c " +
                         "WHERE c.borrower_id = @searchString",
                         conn
-                    )
-                )
+                ))
                 {
                     // Create an adaptor for executing the query with the given variables.
                     using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
@@ -260,7 +263,7 @@ namespace ciss_311_project_3
         /// <summary>
         /// Checks to see if this Borrower has a checked out Book that is overdue.
         /// </summary>
-        /// <returns>Boolean - true if there are 1 or more overdue Books.</returns>
+        /// <returns>Boolean - True if there are 1 or more overdue Books.</returns>
         public bool HasOverdueBooks()
         {
             DataTable bookResultsTable = new DataTable();
@@ -281,6 +284,7 @@ namespace ciss_311_project_3
                     // Create an adaptor for executing the query with the given variables.
                     using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
                     {
+                        // Set the date to compare to one month prior to today.
                         DateTime date = DateTime.Today.AddMonths(-1);
 
                         comd.Parameters.AddWithValue("@searchString", this.id.ToString());
@@ -298,7 +302,7 @@ namespace ciss_311_project_3
         /// <summary>
         /// Checks to see if this Borrower has overdue Books or any available Book allotment remaining.
         /// </summary>
-        /// <returns>Boolean - true if there are enough Book allotments remaining and no overdue Books.</returns>
+        /// <returns>Boolean - True if there are enough Book allotments remaining and no overdue Books.</returns>
         public bool CanCheckoutBooks()
         {
             return GetCurrentCheckedOutCount() < bookAllotment && !HasOverdueBooks();

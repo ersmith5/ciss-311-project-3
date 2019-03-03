@@ -54,5 +54,11 @@ namespace ciss_311_project_3
             var borrowerForm = new AddBorrowers.BorrowerForm();
             borrowerForm.Show();
         }
+
+        private void btnListCheckedOutBooks_Click(object sender, EventArgs e)
+        {
+            var checkoutHistoryForm = new CheckoutHistory_Form.CheckoutHistoryForm();
+            checkoutHistoryForm.Show();
+        }
     }
 }

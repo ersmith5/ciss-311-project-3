@@ -181,8 +181,14 @@ namespace ciss_311_project_3
             ].ConnectionString;
         }
 
+        /// <summary>
+        /// Retrieve the Book with the given ID.
+        /// </summary>
+        /// <param name="bookId">ID of the Book to retrieve.</param>
+        /// <returns>The requested Book.</returns>
         public static Book GetBook(int bookId)
         {
+            // Local connection variable due to this being a static method.
             string connectionString = ConfigurationManager.ConnectionStrings[
                 "ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"
             ].ConnectionString;
@@ -197,8 +203,7 @@ namespace ciss_311_project_3
                 using (SqlCommand comd = new SqlCommand(
                         "SELECT b.* FROM Library.books as b where b.book_id = @searchString",
                         conn
-                    )
-                )
+                ))
                 {
                     // Create an adaptor for executing the query with the given variables.
                     using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
@@ -227,8 +232,7 @@ namespace ciss_311_project_3
                         "JOIN Library.books as b on ab.book_id = b.book_id " +
                         "WHERE b.book_id = @searchString",
                         conn
-                    )
-                )
+                ))
                 {
                     // Create an adaptor for executing the query with the given variables.
                     using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
@@ -236,6 +240,7 @@ namespace ciss_311_project_3
                         // Set the variables to send along with the command.
                         comd.Parameters.AddWithValue("@searchString", bookId);
 
+                        // In-memory table to hold the query results.
                         DataTable resultsTable = new DataTable();
 
                         // Execute the query and save the results.
@@ -246,32 +251,38 @@ namespace ciss_311_project_3
                             // Add the Author to the Authors List.
                             authorsList.Add(
                                 new Author(
-                                    dataRow[1].ToString(), // first_name
-                                    dataRow[2].ToString(), // last_name
-                                    dataRow[3].ToString()  // about_the_author
+                                    dataRow["first_name"].ToString(), 
+                                    dataRow["last_name"].ToString(), 
+                                    dataRow["about_the_author"].ToString()
                                 )
                             );
                         }
                     }
                 }
-                DateTime year = new DateTime(int.Parse(bookRow[2].ToString()), 1, 1);
 
                 // Create a Book object built from the database records.
                 return new Book(
-                    int.Parse(bookRow[0].ToString()), // id
-                    bookRow[1].ToString(), // title
+                    int.Parse(bookRow["book_id"].ToString().Trim()),
+                    bookRow["title"].ToString().Trim(),
                     authorsList,
-                    year,
-                    bookRow[3].ToString(), // isbn
-                    bookRow[4].ToString(), // location
-                    int.Parse(bookRow[5].ToString()) // copies
+                    new DateTime(int.Parse(bookRow["copyright_year"].ToString().Trim()), 1, 1),
+                    bookRow["isbn"].ToString().Trim(),
+                    bookRow["location"].ToString().Trim(),
+                    int.Parse(bookRow["copies"].ToString().Trim())
                 );
             }
         }
 
+
+        /// <summary>
+        /// Retrieve a List of Books with the given IDs.
+        /// </summary>
+        /// <param name="bookIds">IDs of the Books to retrieve.</param>
+        /// <returns>A List of the requested Books.</returns>
         public static List<Book> GetBooksByID(List<int> bookIds)
         {
-             string connectionString = ConfigurationManager.ConnectionStrings[
+            // Local connection variable due to this being a static method.
+            string connectionString = ConfigurationManager.ConnectionStrings[
                 "ciss_311_project_3.Properties.Settings.TinyLibraryDBConnectionString"
             ].ConnectionString;
 
@@ -282,9 +293,9 @@ namespace ciss_311_project_3
             {
                 // Set the command to be executed.
                 using (SqlCommand comd = new SqlCommand(
-                        "SELECT b.* " +
-                        "FROM Library.books as b " +
-                        "WHERE b.book_id IN (@searchString)",
+                        "SELECT b.* " + 
+                        "FROM Library.books as b " + 
+                        "WHERE b.book_id IN (@searchString)", 
                         conn
                     )
                 )
@@ -292,53 +303,43 @@ namespace ciss_311_project_3
                     // Create an adaptor for executing the query with the given variables.
                     using (SqlDataAdapter adapter = new SqlDataAdapter(comd))
                     {
+                        // Insert the given List of IDs as a comma separated string.
                         comd.Parameters.AddWithValue("@searchString", string.Join(", ", bookIds.ToArray()));
 
-                        //// Establish a variable for the results.
-                        //DataTable resultsTable = new DataTable();
-
                         // Execute the query and save the results.
-                        //adapter.Fill(resultsTable);
                         adapter.Fill(bookResultsTable);
-
-                        //if (resultsTable.Rows.Count > 0)
-                        //{
-                        //    foreach (DataRow row in resultsTable.Rows)
-                        //    {
-                        //        bookList.Add(new Book(
-                        //            row[1].ToString(), // title
-                        //            new DateTime(int.Parse(row[2].ToString()), 1, 1), // year
-                        //            row[3].ToString(), // isbn
-                        //            row[4].ToString(), // location
-                        //            int.Parse(row[5].ToString()) // copies
-                        //        ));
-                        //    }
-                        //}
                     }
                 }
             }
 
+            // Instantiate a new list of Books.
             List<Book> bookList = new List<Book>();
 
             if (bookResultsTable.Rows.Count > 0)
             {
+                // Build the List of Books from the retrieved results.
                 foreach (DataRow row in bookResultsTable.Rows)
                 {
                     bookList.Add(new Book(
-                        int.Parse(row[0].ToString()), // id
-                        row[1].ToString(), // title
-                        Author.GetAuthorsForBook(int.Parse(row[0].ToString())),
-                        new DateTime(int.Parse(row[2].ToString()), 1, 1), // year
-                        row[3].ToString(), // isbn
-                        row[4].ToString(), // location
-                        int.Parse(row[5].ToString()) // copies
+                        int.Parse(row["book_id"].ToString().Trim()), 
+                        row["title"].ToString().Trim(), 
+                        Author.GetAuthorsForBook(int.Parse(row["book_id"].ToString().Trim())), 
+                        new DateTime(int.Parse(row["copyright_year"].ToString().Trim()), 1, 1), 
+                        row["isbn"].ToString().Trim(), 
+                        row["location"].ToString().Trim(), 
+                        int.Parse(row["copies"].ToString().Trim()) 
                     ));
                 }
             }
             
+            // Return the List of Books or an empty List of Books.
             return bookList;
         }
 
+        /// <summary>
+        /// Gets the number of copies of this Book that are currently checked out.
+        /// </summary>
+        /// <returns>Integer of the number of copies currently checked out.</returns>
         public int GetCheckedOutCount()
         {
             string connectionString = ConfigurationManager.ConnectionStrings[
@@ -373,20 +374,35 @@ namespace ciss_311_project_3
             return int.Parse(bookResultsTable.Rows[0][0].ToString());
         }
 
+        /// <summary>
+        /// Gets the number of copies currently available for this Book.
+        /// </summary>
+        /// <returns>Integer of the number of copies currently available.</returns>
         public int GetAvailableCount()
         {
             return copies - GetCheckedOutCount();
         }
 
+        /// <summary>
+        /// Checks to see if at least 1 copy is currently available.
+        /// </summary>
+        /// <returns>Boolean - True if there is at least 1 copy currently available.</returns>
         public bool IsAvailableToCheckout()
         {
             return GetAvailableCount() > 0;
         }
 
+        /// <summary>
+        /// Creates a record of the given Borrower checking out this Book.
+        /// </summary>
+        /// <param name="borrower">The Borrower checking out this book.</param>
+        /// <returns>Boolean - True if the records were created.</returns>
         public bool CheckoutBy(Borrower borrower)
         {
+            // Set the current date to be used in the database records.
             DateTime date = DateTime.Today;
 
+            // Create a record in the current checkout table.
             using (var conn = new SqlConnection(connectionString))
             {
                 using (var command = new SqlCommand(
@@ -405,6 +421,7 @@ namespace ciss_311_project_3
                 }
             }
 
+            // Create a record in the checkout history table.
             using (var conn = new SqlConnection(connectionString))
             {
                 using (var command = new SqlCommand(
@@ -422,6 +439,7 @@ namespace ciss_311_project_3
                 }
             }
 
+            // Return true indicating that there were no issues.
             return true;
         }
     }

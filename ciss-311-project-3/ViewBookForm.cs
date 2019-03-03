@@ -27,6 +27,11 @@ namespace ciss_311_project_3
             SetFields();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender">Form that triggered the event.</param>
+        /// <param name="e">Event Arguments.</param>
         private void ViewBookFrom_Load(object sender, EventArgs e)
         {
             this.lblTitle.Text = book.Title;
